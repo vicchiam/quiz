@@ -82,7 +82,7 @@ exports.create=function(req,res){
 exports.edit=function(req,res){
 	var quiz=req.quiz;
 	res.render("quizes/edit",{quiz:quiz, errors:[]});
-}	
+};	
 exports.update=function(req,res){
 	req.quiz.pregunta=req.body.quiz.pregunta;
 	req.quiz.respuesta=req.body.quiz.respuesta;
@@ -101,5 +101,10 @@ exports.update=function(req,res){
 			}
 		}
 	);
+};
+exports.destroy=function(req,res){
+	req.quiz.destroy().then(function(){
+		res.redirect("/quizes");
+	}).catch(function(error){next(error)});
 }
 
