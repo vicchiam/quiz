@@ -19,7 +19,7 @@ exports.load=function(req,res,next,quizId){
 exports.show=function(req,res){
 	models.Quiz.find(req.params.quizId).then(function(quiz){
 		res.render("quizes/show",{quiz:req.quiz,errors: []});
-	});	
+	});
 }
 
 exports.question=function(req,res){
@@ -58,7 +58,7 @@ exports.index=function(req,res){
 };
 
 exports.author=function(req,res){
-    res.render("author",{});
+    res.render("author",{errors:[]});
 };
 
 exports.new=function(req,res){
@@ -89,12 +89,12 @@ exports.create=function(req,res){
 exports.edit=function(req,res){
 	var quiz=req.quiz;
 	res.render("quizes/edit",{quiz:quiz, errors:[]});
-};	
+};
 exports.update=function(req,res){
 	req.quiz.pregunta=req.body.quiz.pregunta;
 	req.quiz.respuesta=req.body.quiz.respuesta;
 	req.quiz.indice=req.body.indice;
-	
+
 	req.quiz
 	.validate()
 	.then(
@@ -115,4 +115,3 @@ exports.destroy=function(req,res){
 		res.redirect("/quizes");
 	}).catch(function(error){next(error)});
 }
-
