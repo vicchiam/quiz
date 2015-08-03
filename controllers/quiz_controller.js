@@ -43,7 +43,14 @@ exports.answer=function(req,res){
 };
 
 exports.index=function(req,res){
-	models.Quiz.findAll().then(
+	var search=req.query.search;
+	if(!search) search="";
+	search="%"+search+"%";
+	search=search.replace(" ","%");
+	models.Quiz.findAll({
+		where: ["pregunta like ?",search],
+		order: [["pregunta","ASC"]]
+	}).then(
 		function(quizes){
 			res.render("quizes/index.ejs",{quizes:quizes,errors:[]});
 		}
@@ -56,7 +63,7 @@ exports.author=function(req,res){
 
 exports.new=function(req,res){
 	var quiz=models.Quiz.build(
-		{pregunta:"", respuesta:""}
+		{pregunta:"", respuesta:"",indice:"Humanidades"}
 	);
 
 	res.render("quizes/new",{quiz:quiz,errors:[]});
@@ -73,7 +80,7 @@ exports.create=function(req,res){
 			}
 			else{
 				quiz
-				.save({fields:["pregunta","respuesta"]})
+				.save({fields:["pregunta","respuesta","indice"]})
 				.then(function(){res.redirect("/quizes")})
 			}
 		}
@@ -86,7 +93,8 @@ exports.edit=function(req,res){
 exports.update=function(req,res){
 	req.quiz.pregunta=req.body.quiz.pregunta;
 	req.quiz.respuesta=req.body.quiz.respuesta;
-
+	req.quiz.indice=req.body.indice;
+	
 	req.quiz
 	.validate()
 	.then(
@@ -96,7 +104,7 @@ exports.update=function(req,res){
 			}
 			else{
 				req.quiz
-				.save({fields: ["pregunta","respuesta"]})
+				.save({fields: ["pregunta","respuesta","indice"]})
 				.then(function(){res.redirect("/quizes")});
 			}
 		}

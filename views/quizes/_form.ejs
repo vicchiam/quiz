@@ -1,3 +1,11 @@
+<label for="indi" class="rem">Indice Temático</label>
+<select id="indi" name="indice">
+	<option value="otros" <% if(quiz.indice=="otros"){ %> selected <% } %> >Otros</option>
+	<option value="humanidades" <% if(quiz.indice=="humanidades"){ %> selected <% } %> >Humanidades</option>
+	<option value="ocio" <% if(quiz.indice=="ocio"){ %> selected <% } %> >Ocio</option>
+	<option value="ciencia" <% if(quiz.indice=="ciencia"){ %> selected <% } %> >Ciencia</option>
+	<option value="tecnologia" <% if(quiz.indice=="tecnologia"){ %> selected <% } %> >Tecnologia</option> 
+</select> <p>
 <label for="preg" class="rem">Pregunta:</label>
 <input type="text" id="preg" name="quiz[pregunta]"  value="<%= quiz.pregunta %>" placeholder="Pregunta:" /> <p>
 <label for="resp" class="rem">Respuesta:</label>
