@@ -3,7 +3,10 @@ var models=require('../models/models.js')
 //GET /quizes/question
 
 exports.load=function(req,res,next,quizId){
-	models.Quiz.find(quizId).then(
+	models.Quiz.find({
+			where: {id: Number(quizId)},
+			include: [{model: models.Comment}]
+	}).then(
 		function(quiz){
 			if(quiz){
 				req.quiz=quiz;
@@ -63,7 +66,7 @@ exports.author=function(req,res){
 
 exports.new=function(req,res){
 	var quiz=models.Quiz.build(
-		{pregunta:"", respuesta:"",indice:"Humanidades"}
+		{pregunta:"", respuesta:"",indice:""}
 	);
 
 	res.render("quizes/new",{quiz:quiz,errors:[]});
@@ -86,10 +89,12 @@ exports.create=function(req,res){
 		}
 	);
 };
+
 exports.edit=function(req,res){
 	var quiz=req.quiz;
 	res.render("quizes/edit",{quiz:quiz, errors:[]});
 };
+
 exports.update=function(req,res){
 	req.quiz.pregunta=req.body.quiz.pregunta;
 	req.quiz.respuesta=req.body.quiz.respuesta;
@@ -110,8 +115,11 @@ exports.update=function(req,res){
 		}
 	);
 };
+
 exports.destroy=function(req,res){
-	req.quiz.destroy().then(function(){
+	req.quiz.destroy()
+	.then(function(){
 		res.redirect("/quizes");
-	}).catch(function(error){next(error)});
+	})
+	.catch(function(error){next(error)});
 }

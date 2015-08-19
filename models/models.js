@@ -1,5 +1,5 @@
 var path=require('path');
-/*try{
+try{
 	var url=process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
 	var DB_name=(url[6]|| null);
 	var user=(url[2] || null);
@@ -20,7 +20,6 @@ var path=require('path');
         	storage:storage,
         	omitNull: true
 	});
-
 }
 catch(err){
 	var url="sqlite://:@:/";
@@ -32,8 +31,9 @@ catch(err){
 		{dialect: "sqlite",storage: storage}
 	);
 }
-*/
 
+
+/*
 var url=process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
 var DB_name=(url[6]||null);
 var user=(url[2]||null);
@@ -54,10 +54,19 @@ var sequelize=new Sequelize(DB_name,user,pwd,{
 	storage: storage,
 	omitNull: true
 });
+*/
 
 //Importar definicion de la tabla
 var Quiz=sequelize.import(path.join(__dirname,"quiz"));
+
+//Importar definician de la tabla comment
+var Comment=sequelize.import(path.join(__dirname,"comment"));
+
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
 exports.Quiz=Quiz;
+exports.Comment=Comment
 
 //sequelize.sync() crea e inicializa la tabla
 sequelize.sync().success(function(){
