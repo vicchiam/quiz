@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
 
     //Guardar path en session.redir para despues del login
-    if(!req.path.match(/\/loggin|\/logout/)){
+    if(!req.path.match(/\/login|\/logout/)){
         req.session.redir=req.path
     }
 
@@ -40,7 +40,7 @@ app.use(function(req, res, next) {
         var d1=new Date();
         var dif=d1-req.session.tiempo;
         dif=dif/(1000);
-        if(dif>10){
+        if(dif>120){
             console.log("auto-logot");
             delete req.session.user;
         }

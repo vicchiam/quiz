@@ -69,8 +69,8 @@ exports.Quiz=Quiz;
 exports.Comment=Comment
 
 //sequelize.sync() crea e inicializa la tabla
-sequelize.sync().success(function(){
-	Quiz.count().success(function(count){
+sequelize.sync().then(function(){
+	Quiz.count().then(function(count){
 		if(count===0){
 			Quiz.create(
 				{
