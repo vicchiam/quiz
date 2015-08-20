@@ -36,6 +36,20 @@ app.use(function(req, res, next) {
         req.session.redir=req.path
     }
 
+    if(req.session.tiempo){
+        var d1=new Date();
+        var dif=d1-req.session.tiempo;
+        dif=dif/(1000);
+        if(dif>10){
+            console.log("auto-logot");
+            delete req.session.user;
+        }
+    }
+    var d=new Date();
+    req.session.tiempo=d.getTime();
+    console.log(req.session.tiempo);
+
+
     //Hacer visible req.session en las vistas
     res.locals.session=req.session;
     next();
