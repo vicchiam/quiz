@@ -30,5 +30,8 @@ nav span {
 }
 #ErrorMsgs{
     color: #f61;
-    font-size: smaler;		
+    font-size: smaler;
+}
+.right{
+    float: right;
 }
